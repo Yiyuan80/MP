@@ -5,6 +5,32 @@ from matplotlib import pyplot as plt
 import matplotlib
 import itertools
 
+def normalize_act(filedir,id_list):
+    """Calculate mean/std of activity data."""
+    all_act = []
+
+    for file in id_list:
+        print('parsing:',file)
+
+        df = pd.read_csv(os.path.join(filedir, (file + ' cleaned raw.csv')),skiprows=3) # load actigraphy
+
+        days = df['Date'].unique()[0:-1] # exclude last day
+
+        df_excluded = df[df['Date'].isin(days)]
+        
+        complete_day = []
+        for i in range(len(days)):
+            if detect_na(df_excluded['Axis1'].loc[df_excluded['Date']==days[i]].values.tolist(), num=120):
+                complete_day.append(days[i])
+        df_complete = df[df['Date'].isin(complete_day)]
+        act = df_complete['Axis1'].values.tolist()
+        all_act = all_act + act
+    # calculate mean and std
+    all_act = np.array(all_act)
+    mean_act = np.mean(all_act)
+    std_act = np.std(all_act)
+
+    return mean_act, std_act, all_act
 
 def select_conse(complete_day):
     for i in complete_day:
