@@ -1,4 +1,4 @@
-# Comparing traditional sleep indices with contrastive representation learning for predicting psychiatric and cardiometabolic outcomes from sleep data
+## Comparing traditional sleep indices with contrastive representation learning for predicting psychiatric and cardiometabolic outcomes from sleep data
 
 
 ## MESA
